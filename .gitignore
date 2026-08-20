@@ -1,3 +1,4 @@
+# Gitignore template for Python 
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -216,3 +217,46 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+=======
+# ══════════════════════════════════════════════════════════
+# ADAMAS — .gitignore
+# ══════════════════════════════════════════════════════════
+
+# Variáveis de ambiente — NUNCA publicar
+.env
+
+# Banco de dados local
+*.db
+*.sqlite
+*.sqlite3
+
+# Arquivos temporários de upload
+temp_files/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+venv/
+env/
+.venv/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+flask_session/
+>>>>>>> 8a7a258 (Primeiro commit: Backend e Frontend juntos.)

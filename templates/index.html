@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>ADAMAS | Protocolo de Inteligência</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-top">
+                <div class="sidebar-logo">
+                    <span class="logo-gem">◈</span>
+                    <span class="logo-text">ADAMAS</span>
+                </div>
+                <button class="icon-btn" id="toggle-sidebar" title="Recolher painel">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <line x1="2" y1="4" x2="14" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        <line x1="2" y1="8" x2="14" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        <line x1="2" y1="12" x2="14" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="sidebar-actions">
+                <button class="sidebar-action-btn" id="new-chat-btn" title="Nova sessão">
+                    <span class="btn-icon">+</span>
+                    <span class="btn-label">Nova Sessão</span>
+                </button>
+                <button class="sidebar-action-btn danger" id="reset-btn" title="Purgar memória">
+                    <span class="btn-icon">⊘</span>
+                    <span class="btn-label">Purgar Memória</span>
+                </button>
+                <button class="sidebar-action-btn" id="export-btn" title="Exportar conversa (Ctrl+E)">
+                    <span class="btn-icon">↓</span>
+                    <span class="btn-label">Exportar Sessão</span>
+                </button>
+                <button class="sidebar-action-btn" id="dashboard-btn" title="Desempenho histórico">
+                    <span class="btn-icon">◎</span>
+                    <span class="btn-label">Desempenho</span>
+                </button>
+                <button class="sidebar-action-btn danger" id="logout-btn" title="Sair da conta">
+                    <span class="btn-icon">→</span>
+                    <span class="btn-label">Sair</span>
+                </button>
+            </div>
+
+            <!-- Painel de placar — visível apenas durante a sabatina -->
+            <div id="placar-panel" class="placar-panel" style="display:none;">
+                <div class="placar-header">
+                    <span class="placar-gem">◈</span>
+                    <span class="placar-title">PLACAR</span>
+                </div>
+                <div class="placar-grid">
+                    <div class="placar-item correto">
+                        <span class="placar-num" id="placar-correto">0</span>
+                        <span class="placar-label">Corretas</span>
+                    </div>
+                    <div class="placar-item parcial">
+                        <span class="placar-num" id="placar-parcial">0</span>
+                        <span class="placar-label">Parciais</span>
+                    </div>
+                    <div class="placar-item incorreto">
+                        <span class="placar-num" id="placar-incorreto">0</span>
+                        <span class="placar-label">Erradas</span>
+                    </div>
+                </div>
+                <div class="placar-total">
+                    <span id="placar-total">0</span> respondidas
+                </div>
+            </div>
+
+            <div class="sidebar-divider">
+                <span class="divider-label">HISTÓRICO</span>
+            </div>
+
+            <div id="history-list" class="history-list"></div>
+
+            <div class="sidebar-divider">
+                <span class="divider-label">ATALHOS</span>
+            </div>
+            <div id="shortcuts-hint" style="
+                padding: 8px 14px 12px;
+                font-family: var(--font-mono);
+                font-size: 0.6rem;
+                color: var(--text-dim);
+                line-height: 1.9;
+                letter-spacing: 0.3px;
+                flex-shrink: 0;
+                opacity: 1;
+                transition: opacity var(--transition);
+            ">
+                Ctrl+K — Nova sessão<br>
+                Ctrl+U — Upload arquivo<br>
+                Ctrl+E — Exportar<br>
+                Ctrl+M — Voz on/off<br>
+                Ctrl+/ — Ajuda
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div id="canvas-container"></div>
+
+            <div class="hud-overlay">
+                <div class="chat-container">
+                    <div class="active-file-bar" id="active-file-bar">
+                        <span class="afb-gem">◈</span>
+                        <span class="afb-name" id="afb-name">—</span>
+                        <span id="modo-indicator" class="modo-badge modo-consulta">◈ CONSULTA</span>
+                        <button class="afb-clear" id="afb-clear-btn" title="Desconectar fragmento">✖</button>
+                    </div>
+
+                    <div id="chat-log"></div>
+                    <div class="input-area">
+                        <button type="button" onclick="document.getElementById('file-upload').click()" class="gem-icon-btn" title="Carregar arquivo">◈</button>
+                        <input type="file" id="file-upload" style="display:none">
+                        <textarea id="user-input" placeholder="Aguardando comando..." rows="1"></textarea>
+                        <button id="voice-btn" class="voice-ctrl-btn" title="Protocolo de Voz (Ctrl+M)">
+                            <svg id="voice-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 3v18M17 7v10M22 10v4M7 7v10M2 10v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                        <button id="send-btn" class="send-action">ENVIAR</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="custom-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">AVISO DE PROTOCOLO</div>
+            <p>Deseja abortar a sessão e purgar a memória volátil? Esta ação é irreversível.</p>
+            <div class="modal-footer">
+                <button onclick="fecharModal()" class="modal-btn cancel">ABORTAR</button>
+                <button id="confirm-purge" class="modal-btn confirm">CONFIRMAR</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+
+    <!-- Modal do Dashboard de Desempenho -->
+    <div id="dashboard-modal" class="dashboard-overlay" style="display:none;">
+        <div class="dashboard-content">
+            <div class="dashboard-header">
+                <div class="dashboard-title">
+                    <span class="dash-gem">◈</span>
+                    <span>DESEMPENHO HISTÓRICO</span>
+                </div>
+                <button class="dashboard-close" id="dashboard-close">✕</button>
+            </div>
+            <div class="dashboard-body" id="dashboard-body">
+                <div class="dash-loading">Carregando dados...</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
