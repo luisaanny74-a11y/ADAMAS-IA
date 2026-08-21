@@ -3,6 +3,11 @@
 **ADAMAS** é um assistente de estudos técnico com IA, projetado para transformar qualquer documento (PDF, DOCX, TXT ou código-fonte) em uma ferramenta de aprendizado ativo. Diferente de um chatbot comum, o ADAMAS opera em dois modos distintos — **consulta** e **sabatina** — e foi construído com um foco central: **nunca validar uma resposta incorreta por educação**.
 
 Todo o processamento de linguagem natural roda localmente através do [Ollama](https://ollama.com), sem dependência de APIs pagas ou envio de dados para servidores externos.
+---
+
+<p align="center">
+  <img src="assets/preview.png" alt="Interface Principal do ADAMAS" width="100%">
+</p>
 
 ---
 
