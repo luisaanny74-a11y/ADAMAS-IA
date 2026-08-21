@@ -6,12 +6,6 @@ Todo o processamento de linguagem natural roda localmente através do [Ollama](h
 ---
 
 <p align="center">
-  <img src="" alt="Interface Principal do ADAMAS" width="100%">
-</p>
-
----
-
-<p align="center">
   <img src="assets/Adamas-ia.png" alt="Interface Principal do ADAMAS" width="100%">
 </p>
 
